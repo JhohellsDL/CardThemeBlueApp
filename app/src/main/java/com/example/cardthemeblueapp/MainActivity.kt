@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import com.example.cardthemeblueapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -25,14 +27,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.buttonAgain.setOnClickListener {
-            moveTwoText(binding.cardInstagram, binding.cardFacebook, binding.cardLinkedin)
-            binding.textName.fadeInAndMoveUp()
-            binding.cardImage.fadeInAndMoveUp()
+            moveProgressBar()
+            binding.textTitle.fadeInAndMoveUp()
+            binding.cardPdf.fadeInAndRotate()
+            binding.cardClose.fadeInAndRotate()
+            binding.textFileName.fadeInAndMoveUp()
+            binding.textFileMb.fadeInAndMoveUp()
+            binding.progressBar.progress = 0
+
+
+            //moveTwoText(binding.cardInstagram, binding.cardFacebook, binding.cardLinkedin)
+            //binding.textName.fadeInAndMoveUp()
+            //binding.cardImage.fadeInAndMoveUp()
         }
 
+        binding.buttonUpload.setOnClickListener {
+            binding.progressBar.animatedProgress()
+        }
+        /*
         binding.buttonFollow.setOnClickListener {
             showSnackbar(binding.root, "Following")
         }
+
         binding.buttonInstagram.setOnClickListener {
             showSnackbar(binding.root, "Go link Instagram")
         }
@@ -42,6 +58,42 @@ class MainActivity : AppCompatActivity() {
         binding.buttonLinkedin.setOnClickListener {
             showSnackbar(binding.root, "Go link Linkedin")
         }
+
+         */
+    }
+
+    private fun moveProgressBar() {
+        binding.progressBar.alpha = 0f
+        binding.buttonUpload.alpha = 0f
+
+        val fadeInAnimator1 = ObjectAnimator.ofFloat(binding.progressBar, "alpha", 0f, 1f)
+        fadeInAnimator1.duration = ANIMATION_DURATION
+        val fadeInAnimator2 = ObjectAnimator.ofFloat(binding.buttonUpload, "alpha", 0f, 1f)
+        fadeInAnimator2.duration = ANIMATION_DURATION
+
+        val animator1 = ObjectAnimator.ofFloat(binding.progressBar, "translationY", 0f, -10f)
+        animator1.duration = ANIMATION_DURATION
+        val animator2 = ObjectAnimator.ofFloat(binding.buttonUpload, "translationY", 0f, -10f)
+        animator2.duration = ANIMATION_DURATION
+
+        animator1.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                animator2.start()
+                fadeInAnimator2.start()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+            }
+
+        })
+        fadeInAnimator1.start()
+        animator1.start()
     }
 
     private fun moveTwoText(cardView1: CardView, cardView2: CardView, cardView3: CardView) {
@@ -125,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val fadeInAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
         fadeInAnimator.duration = ANIMATION_DURATION
 
-        val moveUpAnimator = ObjectAnimator.ofFloat(this, "translationY", 0f, 10f)
+        val moveUpAnimator = ObjectAnimator.ofFloat(this, "translationY", -20f, 0f)
         moveUpAnimator.duration = ANIMATION_DURATION
 
 
@@ -144,6 +196,24 @@ class MainActivity : AppCompatActivity() {
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(fadeInAnimator, translateAnimator)
         animatorSet.start()
+    }
+
+    private fun CardView.fadeInAndRotate() {
+        val fadeInAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
+        fadeInAnimator.duration = ANIMATION_DURATION
+
+        val translateAnimator = ObjectAnimator.ofFloat(this, "rotation", 0f, 360f)
+        fadeInAnimator.duration = ANIMATION_DURATION
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(fadeInAnimator, translateAnimator)
+        animatorSet.start()
+    }
+
+    private fun ProgressBar.animatedProgress(){
+        val progressAnimator = ObjectAnimator.ofInt(this, "progress", 0, 100)
+        progressAnimator.duration = 1000
+        progressAnimator.start()
     }
 
     private fun Button.fadeInAndMoveUp() {
