@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
             binding.textFileName.fadeInAndMoveUp()
             binding.textFileMb.fadeInAndMoveUp()
             binding.progressBar.progress = 0
+            binding.imageClose.setImageResource(R.drawable.close_icon)
 
 
             //moveTwoText(binding.cardInstagram, binding.cardFacebook, binding.cardLinkedin)
@@ -43,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonUpload.setOnClickListener {
             binding.progressBar.animatedProgress()
+            binding.imageClose.setImageResource(R.drawable.check_icon)
+            binding.imageClose.fadeIn()
         }
         /*
         binding.buttonFollow.setOnClickListener {
@@ -212,7 +216,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun ProgressBar.animatedProgress(){
         val progressAnimator = ObjectAnimator.ofInt(this, "progress", 0, 100)
-        progressAnimator.duration = 1000
+        progressAnimator.duration = ANIMATION_DURATION
+        progressAnimator.start()
+    }
+
+    private fun ImageView.fadeIn() {
+        val progressAnimator = ObjectAnimator.ofFloat(this, "alpha", 0f, 1f)
+        progressAnimator.duration = ANIMATION_DURATION
         progressAnimator.start()
     }
 
