@@ -5,7 +5,9 @@
 
     <color name="blue_theme">#335CF1</color>
     <color name="blue_light_theme">#DEE5FD</color>
+    <color name="gray_light_theme">#E6E9F6</color>
     <color name="blue_dark_theme">#143299</color>
     <color name="black_text_theme">#2E2E2E</color>
+    <color name="gray_text_theme">#939EC8</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>
